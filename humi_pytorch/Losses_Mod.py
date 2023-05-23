@@ -25,7 +25,7 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
     lossfunction = getattr(loss_class, criterion)  # globals()[criterion]
 
     alreadyswitched = False
-    secondlossfunction = Losses.hausdorff_distance
+    #secondlossfunction = Losses.hausdorff_distance
     weight = 0.3
     model.to(device)
     fit_time = time.time()
@@ -52,11 +52,9 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
 
             # if (batch == 1 and (e % 2 == 0)) and save_mode == True:
             #    save_this_output(notHot_mask, e)
-            if not alreadyswitched:  # check if loss switched while training
-                loss = lossfunction(output, mask)
-                # loss = changelossovertime(output, mask, lossfunction, secondlossfunction, weight)
-            else:
-                loss = changelossovertime(output, mask, lossfunction, secondlossfunction, weight)
+             # check if loss switched while training
+            loss = lossfunction(output, mask)
+
 
             # testloss1=hausdorfdistance(output, mask)
             # testloss2 = averagehausdorfdistance(output, mask)
@@ -98,12 +96,9 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
                     # evaluation metrics
                     val_iou_score += loss_class.mIoU(output, notHot_mask)
                     test_accuracy += loss_class.pixel_accuracy(output, notHot_mask)
-
                     # loss
-                    if not alreadyswitched:  # check if loss switched while training
-                        loss = lossfunction(output, mask)
-                    else:
-                        loss = changelossovertime(output, mask, lossfunction, secondlossfunction, weight)
+                    loss = lossfunction(output, mask)
+
 
                     if not math.isnan(loss.item()) and not math.isinf(loss.item()):
                         test_loss += loss.item()
@@ -151,11 +146,6 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
     return history
 
 
-def changelossovertime(pred_mask, mask, firstloss, secondloss, weight):
-    lossone = firstloss(pred_mask, mask)
-    losstwo = secondloss(pred_mask, mask)
-    totalloss = lossone * (1 - weight) + losstwo * weight
-    return totalloss
 
 
 def get_lr(optimizer):
@@ -163,20 +153,4 @@ def get_lr(optimizer):
         return param_group['lr']
 
 
-def save_as_onnx(model, settings):
-    # currently not supported, because onnx does not support many of the features pytorch uses are not yet integrated
-    size = (
-        settings.batch_size, 1, settings.inputShape_create[0], settings.inputShape_create[1],
-        settings.inputShape_create[2])
-    x = torch.randn(size, requires_grad=True)
-    os.chdir(settings.folder_model_weights)
-    model.eval()
-    torch.onnx.export(model,
-                      x,
-                      settings.model_name,
-                      export_params=True,
-                      opset_version=19,
-                      do_constant_folding=True,
-                      )
 
-    return True

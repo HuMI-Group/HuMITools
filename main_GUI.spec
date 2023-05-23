@@ -8,7 +8,7 @@ a = Analysis(
     ['main_GUI.py'],
     pathex=[],
     binaries=[],
-    datas=[('assets/icon.ico','.'), ('assets/logo.png','.')],
+    datas=[('assets/icon.ico','.'), ('assets/logo.png','.'),('assets/arrow_down.png','.'),('assets/arrow_up.png','.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

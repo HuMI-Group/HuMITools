@@ -122,16 +122,12 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
                 decrease += 1
                 if decrease % 5 == 0:
                     print('saving model...')
-                    # torch.save(model, 'Unet-Mobilenet_v2_mIoU-{:.3f}.pt'.format(val_iou_score / len(val_loader)))
-                    # torch.save(model, settings.output_folder + '/' + settings.model +'_Pytorch_'+settings.schenkel+settings.note+'_model.pt')
                     torch.save(model, settings.folder_model_weights + '/' + settings.model + '_model.pt')
 
             if (test_loss / batches_val) > min_loss:
                 not_improve += 1
                 min_loss = (test_loss / len(val_loader))
                 print(f'Loss Not Decrease for {not_improve} time')
-                if settings.changelossovertime == True and not_improve > 20 and alreadyswitched == False:
-                    print('Loss not decrease for 20 times, try to improof boundary')
 
             val_iou.append(val_iou_score / batches_val)
             train_iou.append(iou_score / batches_train)

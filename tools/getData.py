@@ -112,10 +112,10 @@ def preprocess_niftis(settings):
 
     print('-' * 30)
     print('Shape of all images: ' + str(processed_images[0].shape))
-    save_as_nii_for_control(processed_labels, settings.output_folder + '/temp/', 'list-processed-label')
-    save_as_nii_for_control(processed_images, settings.output_folder + '/temp/', 'list-processed-img')
-    save_as_nii_for_control(processed_labels[0], settings.output_folder + '/temp/', 'processed-label')
-    save_as_nii_for_control(processed_images[0], settings.output_folder + '/temp/', 'processed-img')
+    save_as_nii_for_control(processed_labels, settings.output_folder + '/temp/', 'list-processed-label', affine = training_image.affine)
+    save_as_nii_for_control(processed_images, settings.output_folder + '/temp/', 'list-processed-img',affine = training_image.affine)
+    save_as_nii_for_control(processed_labels[0], settings.output_folder + '/temp/', 'processed-label',affine = training_image.affine)
+    save_as_nii_for_control(processed_images[0], settings.output_folder + '/temp/', 'processed-img',affine = training_image.affine)
     print('Saved some test images --> processed-img and processed-label plus lists')
 
     return np.array(processed_images), np.array(processed_labels)

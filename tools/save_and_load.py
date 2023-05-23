@@ -9,18 +9,14 @@ import numpy as np
 import settings
 
 
-def save_as_nii_for_control(array, path, filename, affine=None, q_form=None):
+def save_as_nii_for_control(array, path, filename, affine, q_form=None):
     if path == '':
         path_filename = filename
     else:
         if not os.path.exists(path):
             os.makedirs(path)
         path_filename = os.path.join(path, filename)
-    if affine is None:
-        if not os.path.isfile(settings.affine_example_filename):
-            settings.affine_example_filename = '.' + settings.affine_example_filename
-        example_img_for_affine = nibabel.load(settings.affine_example_filename, mmap=False)
-        affine = example_img_for_affine.affine
+
     nii = nibabel.Nifti1Image(np.array(array), affine=affine)
     if q_form is not None:
         nii.set_qform(q_form)

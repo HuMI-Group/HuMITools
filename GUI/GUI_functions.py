@@ -133,7 +133,7 @@ def predict_selected(self):
     predictfolder = self.user_input_settings_dict.get('Predict').get()
     outputfolder = self.user_input_settings_dict.get('Output').get()
 
-    if ~does_folder_contain_model(outputfolder):
+    if not does_folder_contain_model(outputfolder):
         showerror(title='ERROR', message='There is no model inside the outputfolder')
         return
 
@@ -161,7 +161,7 @@ def preprocess_and_train(self):
 
     trainfolder = self.user_input_settings_dict.get('Train').get()
 
-    if ~does_folder_contain_label(trainfolder):
+    if not does_folder_contain_label(trainfolder):
         showerror(title='ERROR', message='There is no label inside the trainfolder')
         return
     update_settings(self)

@@ -127,8 +127,6 @@ class Frameworks(ABC):
 
             all_predicted_labels.append(label)
             print('-' * 30)
-            settings.progress_predict['value'] = ((all_filesnames.index(img_name) + 1) / all_filesnames.__len__()) * 100
-            settings.progress_predict.update()
         return all_predicted_labels, all_filesnames
 
     @abstractmethod

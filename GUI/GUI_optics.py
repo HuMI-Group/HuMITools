@@ -56,6 +56,9 @@ class first_window_outputfolder(ttk.Toplevel):
                 parent.settings.weighted_model_name = file
                 parent.settings.model = file
                 model_name = file.split('.')[0]
+                model_name = model_name.split('_')[0]
+                if model_name in GUI_hardcoded.dropdown_stuff['Model']:
+                    break
                 GUI_hardcoded.dropdown_stuff['Model'].append(model_name)
                 menu = parent.widgets_dict['Model']
                 menu['menu'].add_command(label=model_name,

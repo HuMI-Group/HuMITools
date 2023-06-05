@@ -6,7 +6,10 @@ from tkinter import filedialog
 from tkinter.constants import END
 from tkinter.messagebox import showinfo, showerror
 
+from GUI import GUI_hardcoded
 from humi_pytorch import pytorch_specific
+from tools import save_and_load
+
 
 #update gui to fit to default settings
 def update_user_input_settings_dict(self):
@@ -167,6 +170,8 @@ def preprocess_and_train(self):
     update_settings(self)
     ####getdata
     getFramework().save_train_images(self.settings)
+    update_settings(self)
+    save_and_load.save_settings_as_json(self.settings, GUI_hardcoded.name_json)
     ######train
     try:
         self.lbl_train_text.set("training...")

@@ -35,11 +35,11 @@ To predict images, you need a trained model. Either you train it yourself or, in
 
 ## Pretrained models
 The pretrained models are trained on either upper or lower legs of human MRI scans.
-We used a large, heterogenouse dataset... 
+We used a large, heterogenouse datasets as published in the paper below. 
 
 [![DOI_heterogen_Paper](https://img.shields.io/badge/DOI-10.3390/diagnostics11101747-blue.svg)](https://www.mdpi.com/2075-4418/11/10/1747)
 
-You have to check the split checkbox
+When using our models you have to check the split checkbox
 Number of labels for upper legs: 8
 Number of labels for lower legs: 7
 

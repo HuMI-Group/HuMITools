@@ -18,7 +18,7 @@ This project is implemented in python. If you want to adapt the code, develop yo
     4. Within your chosen IDE open the project and set the newly created conda environment “HuMITools” as the python interpreter. 
     5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](![plot](./assets/GUI_screenshot.png)
 
 # Functions
 HuMITools is used to train and predict data. Opening the GUI, it will ask for an output folder. The output folder is the place where models will be saved during training and labels after prediction. It is also a folder for temporary data, like after preprocessing and a .json. The .json is a file created after closing the GUI. It will save your latest settings so that you can easily continue your training or prediction another time.

@@ -56,6 +56,9 @@ class first_window_outputfolder(ttk.Toplevel):
                 parent.settings.weighted_model_name = file
                 parent.settings.model = file
                 model_name = file.split('.')[0]
+                model_name = model_name.split('_')[0]
+                if model_name in GUI_hardcoded.dropdown_stuff['Model']:
+                    break
                 GUI_hardcoded.dropdown_stuff['Model'].append(model_name)
                 menu = parent.widgets_dict['Model']
                 menu['menu'].add_command(label=model_name,
@@ -190,7 +193,7 @@ class GUI(tk.Frame):
 
             self.create_entrybox(group1, category, index_row, paddings, input)
             index_row += 1
-        cf.add(group1, title='Advances settings', style='light')
+        cf.add(group1, title='Advanced settings', style='light')
 
         index_row += 1
         self.btn_train = ttk.Button(
@@ -376,6 +379,7 @@ class CollapsingFrame(ttk.Frame):
         self.images = [ttk.PhotoImage(name='open', file=get_assets_path("arrow_up.png")),
                        ttk.PhotoImage(name='closed', file=get_assets_path("arrow_down.png"))]
 
+
     def add(self, child, title="", style='light', **kwargs):
         if child.winfo_class() != 'TFrame':
             return
@@ -387,10 +391,14 @@ class CollapsingFrame(ttk.Frame):
             lbl.configure(textvariable=kwargs.get('textvariable'))
         lbl.pack(side='left', fill='both', padx=10)
         btn = ttk.Button(frm, image='open', style='light', command=lambda c=child: self._toggle_open_close(child))
+
         btn.pack(side='right')
         child.btn = btn
         child.grid(row=self.cumulative_rows + 1, column=0, sticky='news')
         self.cumulative_rows += 2
+        #initially closed
+        child.grid_remove()
+        child.btn.configure(image='closed')
 
     def _toggle_open_close(self, child):
         if child.winfo_viewable():
@@ -399,3 +407,4 @@ class CollapsingFrame(ttk.Frame):
         else:
             child.grid()
             child.btn.configure(image='open')
+

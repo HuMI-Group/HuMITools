@@ -1,4 +1,4 @@
-name: Humitools
+name: HuMITools
 channels:
   - conda-forge
   - defaults

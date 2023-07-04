@@ -144,9 +144,19 @@ def undo_reshaping_stuff(after_split_shape, list_to_revert, scaling_factor_all,
 
 
 def rename_labels(left_side, right_side, settings):
-    correct_values_left = settings.labels_left
-    correct_values_right = settings.labels_right
 
+    if not settings.labels_left:
+        correct_values_left = list(range(1, (int(settings.number_of_labels))*2, 2))
+        correct_values_left.insert(0,0)
+        correct_values_right = list(range(2, (int(settings.number_of_labels)+1)*2, 2))
+        correct_values_right.insert(0,0)
+
+    else:
+        correct_values_left = settings.labels_left
+        correct_values_right = settings.labels_right
+
+    print('left', correct_values_left)
+    print('right', correct_values_right)
     # create empty
     new_left = np.zeros(left_side.shape)
     new_right = np.zeros(right_side.shape)

@@ -18,14 +18,14 @@ This project is implemented in python. If you want to adapt the code, develop yo
     4. Within your chosen IDE open the project and set the newly created conda environment “HuMITools” as the python interpreter. 
     5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
 
-![App Screenshot](![plot](./assets/GUI_screenshot.png)
+![A screenshot of the app](./assets/GUI_screenshot.png)
 
 # Functions
 HuMITools is used to train and predict data. Opening the GUI, it will ask for an output folder. The output folder is the place where models will be saved during training and labels after prediction. It is also a folder for temporary data, like after preprocessing and a .json. The .json is a file created after closing the GUI. It will save your latest settings so that you can easily continue your training or prediction another time.
 
 ## Training
 To train a network on your individual dataset, you need images that are already labeled/segmented. Click on "What should be trained?" to choose a folder with images and their respective labels. HuMITools accepts only niftis (.nii or .nii.gz) and labels belonging to images should have the same name with an additional "-label".
-On the left side you can choose the model and a loss. For recommendations read further down. The preprocessing will be done automatically. Images will be range normalized, background will be cut and all images will be zoomed into the same dimension. If you intend to perform automatic segmentation for body parts with bilateral symmetry (like legs) you can check the box “Split (left/right)”. HuMITools will try to find the middle of the image, cut and mirror it. This has the advantage of smaller images and produces more trainings datasets. You can train an existing model by checking the box "load old weigths". Choose the number of epochs the network should train on. To just look if everything is working, we recommend to train for 5 epochs. Lateron, the best results will be achieved with 300-500 epochs. Then, note the total number of your labels, which is the number of bodies to be segmented (e.g. cound of muscles). The background should be labeled as zero and will be added as a label automatically in the code. Last but not least, you can add a note to remind yourself what you are doing with this run. The note and all other settings will be saved in the .json upon closing the GUI. When opening the GUI and choosing a folder with an .json as output folder, the setting written in the .json will fill the GUI.
+On the left side you can choose the model and a loss. For recommendations  for models read further down. The preprocessing will be done automatically. Images will be range normalized, background will be cut and all images will be zoomed into the same dimension. If you intend to perform automatic segmentation for body parts with bilateral symmetry (like legs) you can check the box “Split (left/right)”. HuMITools will try to find the middle of the image, cut and mirror it. This has the advantage of smaller images and produces more trainings datasets. You can train an existing model by checking the box "load old weigths". Choose the number of epochs the network should train on. To just look if everything is working, we recommend to train for 5 epochs. Lateron, the best results will be achieved with 300-500 epochs. Then, note the total number of your labels, which is the number of bodies to be segmented (e.g. cound of muscles). The background should be labeled as zero and will be added as a label automatically in the code. Last but not least, you can add a note to remind yourself what you are doing with this run. The note and all other settings will be saved in the .json upon closing the GUI. When opening the GUI and choosing a folder with an .json as output folder, the setting written in the .json will fill the GUI.
 
 With that, you can start the training by clicking on "Train". Depending on your hadware the training might take a while. Before training, the data will be preprocessed. For that, all images and labels will be converted to 3D numpy, which will be stored in separate folders called "image_numpy" for the images and "label_numpy" for the labels. These folders can be found in the defined output folder, in a separate folder called "TEMP". Additionally, four .nii files will be stored that can be used to check if after proprocessing the labels are still in their correct places. The model (.pt) will be saved in the outputfolder after a few epochs and updated every few epochs.
 
@@ -35,11 +35,11 @@ To predict images, you need a trained model. Either you train it yourself or, in
 
 ## Pretrained models
 The pretrained models are trained on either upper or lower legs of human MRI scans.
-We used a large, heterogenouse dataset... 
+We used a large, heterogenouse datasets as published in the paper below. 
 
 [![DOI_heterogen_Paper](https://img.shields.io/badge/DOI-10.3390/diagnostics11101747-blue.svg)](https://www.mdpi.com/2075-4418/11/10/1747)
 
-You have to check the split checkbox
+When using our models you have to check the split checkbox
 Number of labels for upper legs: 8
 Number of labels for lower legs: 7
 
@@ -70,4 +70,4 @@ There will be no support for problems that arise from using “Hoffentlich_Alex�
 # Limitations
 Unfortunately we cannot provide you with trainings datasets, due to data privacy. But we provide you with our own MR leg images, so that you can see on what the pretrained models are trained on.
 
-When changing any of code, advanced settings or use a not implemented model, this is on your own risk.
+When changing any of code, apply advanced settings or use a not implemented model, this is on your own risk.

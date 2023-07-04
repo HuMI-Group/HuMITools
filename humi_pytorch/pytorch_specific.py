@@ -56,7 +56,7 @@ class Pytorch(Frameworks):
         index_new = 1
         for label, image in zip(list_processed_labels, aaaaall_images_pre):
             # falls labels doch one hot...
-            anzahl = int(settings.numberlabels) + 1
+            anzahl = int(settings.number_of_labels) + 1
             label = np.eye(anzahl)[label]
             save_as_numpy(np.array(image), img_numpy_folder_path, str(index_new))
             save_as_numpy(np.array(label), multiclass_numpy_folder_path, str(index_new))
@@ -117,7 +117,7 @@ class Pytorch(Frameworks):
         model_selected = settings.model.lower()
         from humi_pytorch import model
         model_of_choice = getattr(model, model_selected)
-        model = model_of_choice(int(settings.numberlabels))
+        model = model_of_choice(int(settings.number_of_labels))
 
         weight_decay = 0.00099  ## vlt auch in settings rein?
 

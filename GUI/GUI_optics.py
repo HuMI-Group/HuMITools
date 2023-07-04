@@ -7,6 +7,7 @@ from threading import Thread
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
+
 import tools.save_and_load
 from GUI import GUI_hardcoded, GUI_functions
 from settings import Settings
@@ -51,19 +52,7 @@ class first_window_outputfolder(ttk.Toplevel):
                                                     os.path.join(parent.settings.output_folder, GUI_hardcoded.name_json))
         # look if there is already a model.pt
         list_of_filenames_in_output = os.listdir(parent.settings.output_folder)
-        for file in list_of_filenames_in_output:
-            if file.endswith('.pt'):
-                parent.settings.weighted_model_name = file
-                parent.settings.model = file
-                model_name = file.split('.')[0]
-                model_name = model_name.split('_')[0]
-                if model_name in GUI_hardcoded.dropdown_stuff['Model']:
-                    break
-                GUI_hardcoded.dropdown_stuff['Model'].append(model_name)
-                menu = parent.widgets_dict['Model']
-                menu['menu'].add_command(label=model_name,
-                                         command=tk._setit(parent.user_input_settings_dict['Model'], model_name))
-                parent.user_input_settings_dict['Model'].set(model_name)
+        GUI_functions.initial_model_fill(list_of_filenames_in_output, parent)
         # close popup
         self.destroy()
 

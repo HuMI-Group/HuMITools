@@ -5,6 +5,8 @@ import json
 from tkinter import filedialog
 from tkinter.constants import END
 from tkinter.messagebox import showinfo, showerror
+from torch import load
+from torch import nn
 
 from GUI import GUI_hardcoded
 from humi_pytorch import pytorch_specific
@@ -212,3 +214,21 @@ def does_folder_contain_model(folder):
         if str(file).endswith('.pt'):
             return True
     return False
+
+def initial_model_fill(list_of_filenames_in_output,parent):
+    for file in list_of_filenames_in_output:
+        if file.endswith('.pt'):
+            parent.settings.weighted_model_name = file
+            parent.settings.model = file
+            model_name = file.split('.')[0]
+            model_name = model_name.split('_')[0]
+            model = load(parent.settings.output_folder + '/' + file, map_location='cpu')
+            layer_list = [module for module in model.modules() if not isinstance(module, nn.Sequential)]
+            parent.user_input_settings_dict['Total Labels'].set(layer_list[-1].out_channels)
+            if model_name in GUI_hardcoded.dropdown_stuff['Model']:
+                break
+            GUI_hardcoded.dropdown_stuff['Model'].append(model_name)
+            menu = parent.widgets_dict['Model']
+            menu['menu'].add_command(label=model_name,
+                                     command=tk._setit(parent.user_input_settings_dict['Model'], model_name))
+            parent.user_input_settings_dict['Model'].set(model_name)

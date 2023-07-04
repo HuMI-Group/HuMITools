@@ -17,7 +17,7 @@ def update_user_input_settings_dict(self):
     self.user_input_settings_dict.get('Output').set(self.settings.output_folder)
     self.user_input_settings_dict.get('Train').set(self.settings.folder_trainingsData)
     self.user_input_settings_dict.get('Predict').set(self.settings.folder_to_predict_imgs)
-    self.user_input_settings_dict.get('Total Labels').set(self.settings.numberlabels)
+    self.user_input_settings_dict.get('Total Labels').set(self.settings.number_of_labels)
     self.user_input_settings_dict.get('Model').set(self.settings.model)
     self.user_input_settings_dict.get('Load old Weights').set(self.settings.loadWeigth)
     self.user_input_settings_dict.get('Split (left/right leg)').set(self.settings.split)
@@ -39,7 +39,7 @@ def update_settings(self):
     self.settings.folder_trainingsData = self.user_input_settings_dict.get('Train').get()
     self.settings.folder_to_predict_imgs = self.user_input_settings_dict.get('Predict').get()
 
-    self.settings.numberlabels = self.user_input_settings_dict.get('Total Labels').get()
+    self.settings.number_of_labels = self.user_input_settings_dict.get('Total Labels').get()
     self.settings.model = self.user_input_settings_dict.get('Model').get()
     self.settings.loss = self.user_input_settings_dict.get('Losses').get()
 

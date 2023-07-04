@@ -29,7 +29,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='main_GUI',
+    name='HuMITools',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

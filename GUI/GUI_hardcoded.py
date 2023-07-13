@@ -1,33 +1,48 @@
 from settings import Settings
 
 settings = Settings()
+#####strings
+name_json = 'humitools_settings.json'
+
+str_model = 'Model'
+str_losses = 'Losses'
+str_output = 'Output'
+str_train = 'Train'
+str_predict = 'Predict'
+str_split = 'Split (e.g. left/right leg)'
+str_loadweights = 'Continue Training'
+str_epochs = 'Epochs'
+str_totallabels = 'Total Labels'
+str_spatialres = 'Spatial Resolution'
+str_batchsize = 'Batch Size'
+str_learningrate = 'Learning Rate'
+
+
 dropdown_stuff = {
-    "Model": ['resunet', 'Basic_Network', 'unet', 'Hoffentlich_Alex', 'Hoffentlich_Alex_with_Modules', 'denseunet',
+    str_model: ['resunet', 'Basic_Network', 'unet', 'Hoffentlich_Alex', 'Hoffentlich_Alex_with_Modules', 'denseunet',
               'resunetwithmultiresblocks'],
-    "Losses": ['Focal Tversky', 'Categorical Cross Entropy',
-               'Focal Loss', 'Tversky', 'Unified Focal Tversky']
+    str_losses: ['Categorical Cross Entropy','Focal Tversky',
+               'Focal Loss', 'Tversky', 'Unified Focal Loss']
 }
 
 path_stuff = {
-    "Output": "Define an output folder for models, settings and temp-folder: ",
-    "Train": "What should be trained (img+label)?",
-    "Predict": "What do you want to predict (img)?"}
+    str_output: "Define an output folder for models, settings and temp-folder: ",
+    str_train: "What should be trained (img+label)?",
+    str_predict: "What do you want to predict (img)?"}
 
 checkbox = {
-    'Split (left/right leg)': settings.split_legs,
-    'Load old Weights': settings.loadWeigth
+    str_split: settings.split_legs,
+    str_loadweights: settings.loadWeigth
 }
 
 text_options = {
-    'Epochs': settings.epochs,
-    'Total Labels': settings.number_of_labels,
-    'Note': ''
+    str_epochs: settings.epochs,
+    str_totallabels: settings.number_of_labels,
 }
 
 advances_options = {
-    'Spatial resolution': settings.inputShape_create,
-    'Batch size': settings.batch_size,
-    'Learning rate': settings.learning_rate,
+    str_spatialres: settings.inputShape_create,
+    str_batchsize: settings.batch_size,
+    str_learningrate: settings.learning_rate,
 }
 
-name_json = 'humitools_settings_gui.json'

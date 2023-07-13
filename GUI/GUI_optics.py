@@ -7,9 +7,9 @@ from threading import Thread
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
-
 import tools.save_and_load
-from GUI import GUI_hardcoded, GUI_functions
+from GUI import GUI_hardcoded as guistr
+from GUI import GUI_functions
 from settings import Settings
 
 # path to images/icons
@@ -45,14 +45,15 @@ class first_window_outputfolder(ttk.Toplevel):
         button.pack(side=BOTTOM, padx=2, pady=2)
 
     def button_set_outputfolder(self, parent, category):
+        #get directory and set json if available
         GUI_functions.get_directory(parent, category)
-        # look if there is already a .json
-        if os.path.isfile(os.path.join(parent.settings.output_folder, GUI_hardcoded.name_json)):
-            GUI_functions.import_settings_from_json(parent,
-                                                    os.path.join(parent.settings.output_folder, GUI_hardcoded.name_json))
         # look if there is already a model.pt
-        list_of_filenames_in_output = os.listdir(parent.settings.output_folder)
-        GUI_functions.initial_model_fill(list_of_filenames_in_output, parent)
+        if GUI_functions.does_folder_contain_model(parent.settings.output_folder):
+            list_of_filenames_in_output = os.listdir(parent.settings.output_folder)
+            GUI_functions.initial_model_fill(list_of_filenames_in_output, parent)
+        else:
+            parent.lbl_text_predict_settings.set('You need a model (.pt) to predict')
+            parent.update()
         # close popup
         self.destroy()
 
@@ -63,11 +64,11 @@ class GUI(tk.Frame):
         self.logo = tk.PhotoImage(name='logo', file=get_assets_path("logo.png"))
 
         # fill in dropdown, checkboxes etc...
-        self.dropdown_stuff = GUI_hardcoded.dropdown_stuff
-        self.path_stuff = GUI_hardcoded.path_stuff
-        self.checkbox = GUI_hardcoded.checkbox
-        self.text_options = GUI_hardcoded.text_options
-        self.advances_options = GUI_hardcoded.advances_options
+        self.dropdown_stuff = guistr.dropdown_stuff
+        self.path_stuff = guistr.path_stuff
+        self.checkbox = guistr.checkbox
+        self.text_options = guistr.text_options
+        self.advances_options = guistr.advances_options
 
         self.user_input_settings_dict = {}
         self.widgets_dict = {}
@@ -86,13 +87,14 @@ class GUI(tk.Frame):
         if tk.messagebox.askokcancel("Quit",
                                      "Do you want to quit? \n The .json will be saved or overwritten with the current settings."):
             GUI_functions.update_settings(self)
-            tools.save_and_load.save_settings_as_json(self.settings, GUI_hardcoded.name_json)
+            tools.save_and_load.save_settings_as_json(self.settings, guistr.name_json)
             root.destroy()
 
     def createGUI(self):
         # left panel
         left_panel = ttk.Frame(self)
         left_panel.pack(side=LEFT, fill=Y)
+        self.create_left_side_preprocessing(left_panel)
         self.create_left_side_train(left_panel)
         self.create_left_side_predict(left_panel)
 
@@ -130,7 +132,7 @@ class GUI(tk.Frame):
         browse_frm_tree = ttk.Frame(right_panel)
         browse_frm_tree.pack(side=TOP, fill=X, padx=2, pady=1)
         # ## Treeview
-        self.widgets_dict[category] = ttk.Treeview(browse_frm_tree, show='headings', height=10, bootstyle='light')
+        self.widgets_dict[category] = ttk.Treeview(browse_frm_tree, show='headings', height=10, bootstyle='light',selectmode="none")
         self.widgets_dict[category].pack(side='left', fill=X)  # , pady=1)
 
         self.widgets_dict[category].configure(columns=('name', 'path', 'type'))
@@ -143,6 +145,45 @@ class GUI(tk.Frame):
         self.widgets_dict[category].configure(yscrollcommand=self.yscrollbar.set)
         self.widgets_dict[category].config(yscrollcommand=self.yscrollbar.set)
         self.yscrollbar.config(command=self.widgets_dict[category].yview)
+
+    def create_left_side_preprocessing(self, left_panel):
+        train_frame = LeftFrame(left_panel)
+        train_frame.pack(fill=BOTH, pady=1)
+        ## container
+        status_frm = ttk.Frame(train_frame, padding=10)
+        status_frm.columnconfigure(1, weight=1)
+        train_frame.add(
+            child=status_frm,
+            title='General Settings',
+            bootstyle="light"
+        )
+
+        ## settings stuff
+        index_row = 0
+        paddings = {'padx': 5, 'pady': 5}
+        category = guistr.str_split
+        self.create_checkbox(status_frm, category, index_row, paddings)
+        index_row += 1
+
+        category = guistr.str_totallabels
+        input = self.text_options[category]
+        self.create_entrybox(status_frm, category, index_row, paddings, input)
+        index_row += 1
+
+        # advances settings
+        cf = CollapsingFrame(status_frm)
+        cf.grid(row=index_row, column=0, padx=1, pady=1, rowspan=2, columnspan=2, sticky=tk.EW)
+        group1 = ttk.Frame(cf, padding=10)
+
+        index_row += 1
+        category = guistr.str_spatialres
+        input = self.advances_options[category]
+
+        self.create_entrybox(group1, category, index_row, paddings, input)
+        index_row += 1
+        cf.add(group1, title='Advanced settings', style='light')
+
+        index_row += 1
 
     def create_left_side_train(self, left_panel):
         train_frame = LeftFrame(left_panel)
@@ -162,14 +203,17 @@ class GUI(tk.Frame):
             self.create_dropdown(status_frm, category, index_row, paddings)
             index_row += 1
 
-        for category in self.checkbox:
-            self.create_checkbox(status_frm, category, index_row, paddings)
-            index_row += 1
 
         for category in self.text_options:
+            if category == guistr.str_totallabels:
+                continue
             input = self.text_options[category]
             self.create_entrybox(status_frm, category, index_row, paddings, input)
             index_row += 1
+
+        category = guistr.str_loadweights
+        self.create_checkbox(status_frm, category, index_row, paddings)
+        index_row += 1
 
         # advances settings
         cf = CollapsingFrame(status_frm)
@@ -177,6 +221,8 @@ class GUI(tk.Frame):
         group1 = ttk.Frame(cf, padding=10)
 
         for category in self.advances_options:
+            if category == guistr.str_spatialres:
+                continue
             index_row += 1
             input = self.advances_options[category]
 
@@ -188,7 +234,6 @@ class GUI(tk.Frame):
         self.btn_train = ttk.Button(
             master=status_frm,
             text='Train',
-            # image='stop-backup-dark',
             compound=LEFT,
             command=partial(GUI_functions.preprocess_and_train, self),
             bootstyle='info'
@@ -237,19 +282,6 @@ class GUI(tk.Frame):
         )
         self.lbl_text_predict_settings = tk.StringVar()
         self.lbl_text_predict_settings.set('Select an outputfolder with a .json')
-        left_panel.pack(fill=BOTH, expand=YES)
-
-        # predict button
-        self.btn_predict = ttk.Button(
-            master=status_frm,
-            text='Predict',
-            compound=LEFT,
-            command=lambda: Thread(target=self.predict_selected).start(),
-            bootstyle='info')
-
-        self.btn_predict.configure(state="disabled")
-        self.btn_predict.grid(row=7, column=0, columnspan=2, sticky=E, **paddings)
-        predict_frame.pack(fill=BOTH, pady=1)
 
         # predict button
         self.btn_predict = ttk.Button(

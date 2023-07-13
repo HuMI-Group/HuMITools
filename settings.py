@@ -1,7 +1,6 @@
 class Settings:
     def __init__(self):
         self.rel_train_size = 0.80
-        self.save_predict_next_to_img = True
 
         # for train
         self.loadWeigth = False

@@ -55,7 +55,6 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
              # check if loss switched while training
             loss = lossfunction(output, mask)
 
-
             # testloss1=hausdorfdistance(output, mask)
             # testloss2 = averagehausdorfdistance(output, mask)
             # evaluation metrics
@@ -117,7 +116,7 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
                 decrease += 1
                 if decrease % 5 == 0:
                     print('saving model...')
-                    torch.save(model, settings.folder_model_weights + '/' + settings.model + '_model.pt')
+                    torch.save(model, settings.folder_model_weights + '/' + settings.model + '.pt')
 
             if (test_loss / batches_val) > min_loss:
                 not_improve += 1
@@ -144,8 +143,6 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
     print('Total time: {:.2f} m'.format((time.time() - fit_time) / 60))
     # save_as_onnx(model,settings)
     return history
-
-
 
 
 def get_lr(optimizer):

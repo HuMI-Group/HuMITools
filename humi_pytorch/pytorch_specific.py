@@ -19,18 +19,15 @@ class Pytorch(Frameworks):
     def convert_result_in_usable_label(self, leg, masks_result):
         return masks_result[leg].argmax(0)
 
-    def get_model_and_weights(self, settings, model=None, weights_path=None):
+    def get_model_and_weights(self, settings, model=None):
 
         if torch.cuda.is_available():
             map_location = lambda storage, loc: storage.cuda()
         else:
             map_location = 'cpu'
 
-        model = torch.load(os.path.join(settings.folder_model_weights, settings.model + '_model.pt'),
+        model = torch.load(os.path.join(settings.folder_model_weights, settings.model + '.pt'),
                            map_location=map_location)
-
-        model.eval()
-
         return model
 
     def postprocessing_after_predict(self, result, temp_left_all, temp_right_all, scaling_factor_all,
@@ -86,12 +83,6 @@ class Pytorch(Frameworks):
         if not os.path.exists(settings.output_folder):
             os.makedirs(settings.output_folder)
 
-        # if torch.backends.mps.is_built():
-        #    device = torch.device("mps")
-        # elif torch.cuda.is_available():
-        #    device = torch.device("cuda")
-        # else:
-        #    device = torch.device("cpu")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         df = self.create_df(settings)
@@ -114,10 +105,13 @@ class Pytorch(Frameworks):
         train_loader = DataLoader(train_set, batch_size=settings.batch_size, shuffle=True)
         val_loader = DataLoader(val_set, batch_size=settings.batch_size, shuffle=True)
 
-        model_selected = settings.model.lower()
-        from humi_pytorch import model
-        model_of_choice = getattr(model, model_selected)
-        model = model_of_choice(int(settings.number_of_labels))
+        if settings.loadWeigth:
+            model = self.get_model_and_weights(settings)
+        else:
+            model_selected = settings.model.lower()
+            from humi_pytorch import model
+            model_of_choice = getattr(model, model_selected)
+            model = model_of_choice(int(settings.number_of_labels))
 
         weight_decay = 0.00099  ## vlt auch in settings rein?
 

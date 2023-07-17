@@ -226,7 +226,11 @@ def initial_model_fill(list_of_filenames_in_output,parent):
             model_name = file.split('.')[0]
             model = load(parent.settings.output_folder + '/' + file, map_location='cpu')
             layer_list = [module for module in model.modules() if not isinstance(module, nn.Sequential)]
-            parent.user_input_settings_dict[guistr.str_totallabels].set(int(layer_list[-1].out_channels)-1)
+            try:
+                output_layer = int(layer_list[-1].out_channels)-1
+            except:
+                output_layer = int(layer_list[-2].out_channels) - 1
+            parent.user_input_settings_dict[guistr.str_totallabels].set(output_layer)
             if model_name in guistr.dropdown_stuff[guistr.str_model]:
                 parent.user_input_settings_dict[guistr.str_model].set(model_name)
                 break

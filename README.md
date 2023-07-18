@@ -27,12 +27,13 @@ HuMITools is a python tool to train segmentation networks and predict segmentati
 Opening the GUI, it will ask for an output folder. The output folder is the place where models will be saved during training and labels after prediction. It is also a folder were all temporary details are stored during processing and where the current seession is saved as a .json. The .json is a file created during training and again saved after closing the GUI. It will save your latest settings so that you can easily continue your training or prediction another time.
 
 ## Tool layout
-1.	Yellow: Defined output folder, which includes temp folder, settings (.json) and trained model (.pt).
+1.	Grey: General settings you need for trianing and prediction
 2.	Red: Settings for training.
-3.	Green: Data folder for training containing images and labels.
-4.	Blue: Settings and data folder, containing images, for prediciton.
+3. Blue: Start-button and data folder, containing images, for prediciton.
+4.	Yellow: Defined output folder, which includes temp folder, settings (.json) and trained model (.pt).
+5. Green: Data folder for training containing images and labels.
 
-![A screenshot of the app](./assets/GUI_screenshot.png)
+![A screenshot of the app](./assets/gui_colors.png)
 
 ## Data requirements
 1.	HuMITools accepts only (3D) nifty files (.nii or .nii.gz)
@@ -67,9 +68,10 @@ We used a large, heterogenouse datasets as published in the paper below.
 
 [![DOI_heterogen_Paper](https://img.shields.io/badge/DOI-10.3390/diagnostics11101747-blue.svg)](https://www.mdpi.com/2075-4418/11/10/1747)
 
-When using our models you have to check the split checkbox
-Number of labels for upper legs: 8
-Number of labels for lower legs: 7
+When using our models you have to check the split checkbox to split on the z-axis. The number of labels for upper leg being and lower leg being 7.
+
+![A screenshot of the app](./assets/Fig_GUI_FOV_Legend_Numbers.png)
+
 
 # Recommended workflow
 If you have limited amounts of manually segmented nifti files, we recommend the following workflow:
@@ -79,6 +81,10 @@ If you have limited amounts of manually segmented nifti files, we recommend the 
     3. Use a tool like 3D Slicer (https://www.slicer.org/) to manually refine the predicted labels
     4. Train the network again on previously finished labels and the so manually refinded labels 
     5. Repeat to predict, manually refine and retrain the model until your model predicts the labels perfectly well so that you do not have to manually refine anymore
+
+This workflow was sucessfully applied to an MRI dataset of mouse leg muscles
+![A screenshot of the app](./assets/Fig_GUI_Mouse_Legend_Numbers.png)
+
 
 ## Network recommendations
 All networks presented here are adaptations of published papers, often altered so as to fit into limited vRAM or CPU memory. The program will check for cuda availability and will run on the GPU if a Nvidia GPU with cuda support is found.

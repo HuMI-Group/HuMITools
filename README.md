@@ -14,11 +14,11 @@ There are currently two options for installation.
 
 This project is implemented in python. If you want to adapt the code, develop your own networks or alter our preprocessing pipeline, you will need to set up a python environment. For the purposes of this guide, we will assume that you have conda installed on your pc and use an IDE that you are familiar with.
 
-    1. Clone the github repository to a folder
-    2. Open the folder 'pyapp' in a terminal, this should contain a file called humitools_environment.yml”
-    3. In the terminal, type: “conda env create -f “humitools_environment.yml”
-    4. Within your chosen IDE open the project and set the newly created conda environment “HuMITools” as the python interpreter. 
-    5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
+1. Clone the github repository to a folder
+2. Open the folder 'pyapp' in a terminal, this should contain a file called humitools_environment.yml”
+3. In the terminal, type: “conda env create -f “humitools_environment.yml”
+4. Within your chosen IDE open the project and set the newly created conda environment “HuMITools” as the python interpreter. 
+5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
 
 # User guide
 HuMITools is a python tool to train segmentation networks and predict segmentations
@@ -89,11 +89,11 @@ The number of labels for upper leg being 8 and lower leg being 7.
 # Recommended workflow for small datasets
 If you have limited amounts of manually segmented nifti files, we recommend the following workflow:
 
-    1. Train a network on all images with labels from your database for at least 200 epochs
-    2. Use the so trained model to predict the images you have not segmented yet
-    3. Use a tool like 3D Slicer (https://www.slicer.org/) to manually refine the predicted labels
-    4. Train the network again on previously finished labels and the so manually refinded labels 
-    5. Repeat to predict, manually refine and retrain the model until your model predicts the labels perfectly well so that you do not have to manually refine anymore
+1. Train a network on all images with labels from your database for at least 200 epochs
+2. Use the so trained model to predict the images you have not segmented yet
+3. Use a tool like 3D Slicer (https://www.slicer.org/) to manually refine the predicted labels
+4. Train the network again on previously finished labels and the so manually refinded labels 
+5. Repeat to predict, manually refine and retrain the model until your model predicts the labels perfectly well so that you do not have to manually refine anymore
 
 This workflow was sucessfully applied to an MRI dataset of mouse leg muscles
 ![A screenshot of the app](./assets/Fig_GUI_Mouse_Legend_Numbers.png)

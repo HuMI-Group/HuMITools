@@ -2,6 +2,7 @@
 # HuMITools: Segment biological bodies
 
 Whether you work with muscles or brains of mice or men, manual segmentation of MR-images is needed often. This time consuming process can be accelerate by using artificial intelligence.
+
 HuMITools is an OpenSource project that provides pretrained models or enable users to quickly train a model to their own personal needs and predict biological bodies.
 
 ## Installation

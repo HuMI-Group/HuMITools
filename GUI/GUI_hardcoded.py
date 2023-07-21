@@ -26,9 +26,26 @@ dropdown_stuff = {
 }
 
 path_stuff = {
-    str_output: "Define an output folder for models, settings and temp-folder: ",
-    str_train: "What should be trained (img+label)?",
-    str_predict: "What do you want to predict (img)?"}
+    str_output: "Output Folder: ",
+    str_train: "Training Folder:",
+    str_predict: "Prediction Folder:"}
+
+tooltiptext = {
+        str_model : 'Model',
+        str_losses : 'Losses',
+        str_output : 'Output',
+        str_train : 'Train',
+        str_predict : 'Predict',
+        str_split : 'Split (e.g. left/right leg)',
+        str_loadweights : 'Continue Training',
+        str_epochs : 'Epochs',
+        str_totallabels : 'Total Labels',
+        str_spatialres : 'Spatial Resolution',
+        str_batchsize : 'Batch Size',
+        str_learningrate : 'Learning Rate',
+        'str_predictbutton': "Predict",
+        'str_trainbutton': "Train",
+}
 
 checkbox = {
     str_split: settings.split_legs,

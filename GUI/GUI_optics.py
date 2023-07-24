@@ -288,7 +288,7 @@ class GUI(tk.Frame):
         self.lbl_train = ttk.Label(
             master=input_frame,
             textvariable=self.lbl_train_text,
-            font='Helvetica 14 bold'
+            font='Helvetica 10 bold'
         )
         self.lbl_train.grid(row=index_row, column=0, columnspan=2, sticky=W)
         self.lbl_train.grid_remove()
@@ -327,7 +327,7 @@ class GUI(tk.Frame):
         self.lbl_predict = ttk.Label(
             master=left_panel,
             text='predicting...',
-            font='Helvetica 14 bold'
+            font='Helvetica 10 bold'
         )
         self.lbl_predict.grid(row=2, column=0, columnspan=2, sticky=W)
         self.lbl_predict.grid_remove()

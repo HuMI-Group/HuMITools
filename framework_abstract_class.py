@@ -68,27 +68,23 @@ class Frameworks(ABC):
         return full_label
 
     @abstractmethod
-    def predict(self, settings, model=None, specific_files=None):
+    def predict(self, settings, model=None):
         if model is None:
             model = self.get_model_and_weights(settings)
             model.eval()
 
-        if specific_files is not None:
-            all_filesnames = specific_files
-        else:
-            all_filesnames = [os.path.join(settings.folder_to_predict_imgs, name)
+        all_filesnames = [name
                               for name in os.listdir(settings.folder_to_predict_imgs)
                               if name.endswith((".nii", ".gz")) and 'label' not in name]
 
         all_predicted_labels = []
         for img_name in all_filesnames:
 
-            plotsavename = img_name.split('\\')[1]
-            plotsavename = plotsavename.split('.nii')[0]
+            plotsavename = img_name.split('.nii')[0]
 
             print('Starting prediction for ', plotsavename)
 
-            training_image = nibabel.load(img_name, mmap=False)
+            training_image = nibabel.load(os.path.join(settings.folder_to_predict_imgs,img_name), mmap=False)
             affine = training_image.affine
             q_form = training_image.get_qform()
             image_array_raw = training_image.get_fdata()

@@ -18,6 +18,5 @@ class Settings:
 
     def change_output_folder(self, output_folder):
         self.output_folder = output_folder
-        self.folder_model_weights = output_folder
         self.path_images_train_single_numpy = output_folder + '/temp/image_numpy/'
         self.path_labels_train_multiclass_numpy = output_folder + '/temp/label_numpy/'

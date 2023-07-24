@@ -116,7 +116,7 @@ def fit(settings, device, epochs, model, train_loader, val_loader, criterion, op
                 decrease += 1
                 if decrease % 5 == 0:
                     print('saving model...')
-                    torch.save(model, settings.folder_model_weights + '/' + settings.model + '.pt')
+                    torch.save(model, settings.output_folder + '/' + settings.model + '.pt')
 
             if (test_loss / batches_val) > min_loss:
                 not_improve += 1

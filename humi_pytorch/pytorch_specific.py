@@ -26,7 +26,7 @@ class Pytorch(Frameworks):
         else:
             map_location = 'cpu'
 
-        model = torch.load(os.path.join(settings.folder_model_weights, settings.model + '.pt'),
+        model = torch.load(os.path.join(settings.output_folder, settings.model + '.pt'),
                            map_location=map_location)
         return model
 

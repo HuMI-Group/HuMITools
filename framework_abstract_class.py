@@ -32,7 +32,7 @@ class Frameworks(ABC):
         side = 0
         # label_list = []
         label_list = []
-        if settings.split:
+        if settings.split_leftright:
             amount_of_images = len(result) // 2
         else:
             amount_of_images = len(result)
@@ -40,7 +40,7 @@ class Frameworks(ABC):
         for leg in range(amount_of_images):
             list_to_revert = []
 
-            if settings.split:
+            if settings.split_leftright:
                 leg_left = side
                 label_left_prob = self.convert_result_in_usable_label(leg_left, result)
 

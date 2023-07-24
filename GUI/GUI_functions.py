@@ -21,7 +21,7 @@ def update_user_input_settings_dict(self):
     self.user_input_settings_dict.get(guistr.str_totallabels).set(self.settings.number_of_labels)
     self.user_input_settings_dict.get(guistr.str_model).set(self.settings.model)
     self.user_input_settings_dict.get(guistr.str_loadweights).set(self.settings.loadWeigth)
-    self.user_input_settings_dict.get(guistr.str_split).set(self.settings.split)
+    self.user_input_settings_dict.get(guistr.str_split).set(self.settings.split_leftright)
     self.user_input_settings_dict.get(guistr.str_losses).set(self.settings.loss)
     self.user_input_settings_dict.get(guistr.str_epochs).set(self.settings.epochs)
     self.user_input_settings_dict.get(guistr.str_spatialres).set(self.settings.inputShape_create)
@@ -43,7 +43,7 @@ def update_settings(self):
     self.settings.model = self.user_input_settings_dict.get(guistr.str_model).get()
     self.settings.loss = self.user_input_settings_dict.get(guistr.str_losses).get()
 
-    self.settings.split = self.user_input_settings_dict.get(guistr.str_split).get()
+    self.settings.split_leftright = self.user_input_settings_dict.get(guistr.str_split).get()
     self.settings.loadWeigth = self.user_input_settings_dict.get(guistr.str_loadweights).get()
 
     self.settings.epochs = int(self.user_input_settings_dict.get(guistr.str_epochs).get())
@@ -78,7 +78,7 @@ def get_directory(self, category):
         else:
             self.btn_train.configure(state="disable")
 
-        if self.user_input_settings_dict[guistr.str_predict].get() != '' and does_folder_contain_model(directory):
+        if self.user_input_settings_dict[guistr.str_predict].get() != '' and self.user_input_settings_dict[guistr.str_output].get():
                 self.btn_predict.configure(state="enable")
         else:
             self.btn_predict.configure(state="disable")
@@ -141,20 +141,20 @@ def predict_selected(self):
     self.update()
     update_settings(self)
     # self.progressbar.start()
-    try:
-        update_settings(self)
-        self.settings.folder_to_predict_imgs = predictfolder
-        getFramework().predict(self.settings)
-        # self.update_idletasks()
-        get_filenames_in_folder_into_treeview(self, guistr.str_predict)
-        showinfo("Done", "I predicted!")
-        self.lbl_predict.grid_remove()
-        get_filenames_in_folder_into_treeview(self, guistr.str_output)
-        self.update()
+    # try:
+    update_settings(self)
+    self.settings.folder_to_predict_imgs = predictfolder
+    getFramework().predict(self.settings)
+    # self.update_idletasks()
+    get_filenames_in_folder_into_treeview(self, guistr.str_predict)
+    showinfo("Done", "I predicted!")
+    self.lbl_predict.grid_remove()
+    get_filenames_in_folder_into_treeview(self, guistr.str_output)
+    self.update()
 
-    except (BaseException):
-        showerror(title='ERROR - Check console', message=traceback.format_exc().splitlines()[-1])
-        self.lbl_predict.grid_remove()
+    # except (BaseException):
+    #     showerror(title='ERROR - Check console', message=traceback.format_exc().splitlines()[-1])
+    #     self.lbl_predict.grid_remove()
 
 #train
 def preprocess_and_train(self):

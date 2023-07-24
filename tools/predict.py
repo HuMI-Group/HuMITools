@@ -31,7 +31,7 @@ def preprocess_before_predict(image_array_raw, settings):
     for image_array in overlapping_list_image:
         image_array *= 100.0 / image_array.max()
         # split
-        if settings.split:
+        if settings.split_leftright:
             image_array_left, image_array_right = splitting.split_image(image_array)
             after_split_shape = (image_array_left.shape, image_array_right.shape)
             after_split_shape_all.append(after_split_shape)

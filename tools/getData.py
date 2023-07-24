@@ -77,7 +77,7 @@ def preprocess_niftis(settings):
         # split left and right leg
         to_process_label_list = []
         to_process_image_list = []
-        if settings.split:
+        if settings.split_leftright:
 
             image_array_left, image_array_right, label_array_left, label_array_right = splitting.split_image_and_label(
                 image_array, label_array, settings)

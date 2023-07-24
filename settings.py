@@ -5,7 +5,7 @@ class Settings:
         # for train
         self.loadWeigth = False
         self.epochs = 300
-        self.split_legs = False
+        self.split_leftright = False
         self.number_of_labels = 1
 
         # manuel
@@ -21,9 +21,3 @@ class Settings:
         self.folder_model_weights = output_folder
         self.path_images_train_single_numpy = output_folder + '/temp/image_numpy/'
         self.path_labels_train_multiclass_numpy = output_folder + '/temp/label_numpy/'
-
-    def error_stop(self, message):
-        print('#### ERROR:', message)
-
-
-affine_example_filename = './assets/08_20170320_GW_UMC_AB_Dixon_01_T1_iDEAL.nii'

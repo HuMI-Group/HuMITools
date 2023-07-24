@@ -48,7 +48,7 @@ tooltiptext = {
 }
 
 checkbox = {
-    str_split: settings.split_legs,
+    str_split: settings.split_leftright,
     str_loadweights: settings.loadWeigth
 }
 

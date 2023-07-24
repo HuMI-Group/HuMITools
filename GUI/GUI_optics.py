@@ -29,6 +29,7 @@ def start_GUI():
 
     root.mainloop()
 
+
 # set outputfolder initially in an initial popup
 class first_window_outputfolder(ttk.Toplevel):
     def __init__(self, parent):

@@ -65,6 +65,8 @@ Before training, the data will be preprocessed. For that, all images and labels 
 Additionally, four .nii files will be stored that can be used to check if after proprocessing the labels are still in their correct places. 
 The model (.pt) will be saved in the outputfolder after a few epochs and updated every few epochs.
 
+![Flowchart for Training](./assets/Flowchart_Training.png)
+
 ### Advanced settings
 Depending on your hardware the training might take very long. This can be improved by reducing the batch size or the resolution of the images.
 On the other hand, if the training is fast you can improve the outcome by increasing the batch size or image resolution.

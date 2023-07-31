@@ -1,3 +1,11 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+bibliography: bibliography.bib
+---
+
+
 # IMPORTANT: This README is preliminary and still under development!
 # HuMITools: Segment biological bodies
 
@@ -52,16 +60,14 @@ For users that follow the labeling scheme of our group, we provide pretrained mo
 For the prediction of images the following is required:
 1. 16 Gb of RAM
 2. A modern 64bit Operating system (We have tried predicting images on M1 Macs, Debian Derivatives and Windows 11 machines)
-3. 2 Gb of free disk space
+3. 2 GB of free disk space
 
 Training of Neural Networks is a lot more demanding on the system and should ideally be performed using a CUDA enabled Nvidia GPU, 
 training utilizing RoCM (AMD) or Apple Silicon is currently not enabled.
 
 For training on a GPU we recommend a NVIDIA GPU with 24 GB of VRAM (Nvidia Quadro RTX 6000, Nvidia RTX 3090) and 16 GB of RAM.
-If you have 
-
-
-
+If you have no access to a high end GPU and your data necessitates a newly trained model, a modern PC with 24 GB of RAM can be used.
+In our work we have observed that training on a modern GPU speeds up training times by *6 in comparison to training on a CPU.
 
 
 ## General settings
@@ -131,7 +137,11 @@ There will be no support for problems that arise from using â€œHoffentlich_Alexâ
 Unfortunately we cannot provide you with trainings datasets, due to data privacy. But we provide you with MR images of our own leg muscles, so that you can see on what the pretrained models are trained on.
 When changing any of code, apply advanced settings or use a not implemented model, this is on your own risk.
 
-
-
 # Questions
 If you have any questions, need help on predicting your data or want to contribute your data to make the pretrained networks even more powerful feel free to contact us!
+
+# Sources
+
+Most models and Loss functions implemented here were taken (and adapted) from literature sources, 
+
+[DBLP:journals/corr/CicekALBR16]

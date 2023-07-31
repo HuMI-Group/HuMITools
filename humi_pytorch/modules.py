@@ -380,7 +380,7 @@ class densblock(nn.Module):
         currentinchannel = inchannel
         for i in range(repetitions):
             currentoutchannel = currentinchannel + filters  # the output is expanded by filter (mostly 16 or 12)
-            layer_list.append(denslayer(currentinchannel, currentoutchannel).cuda())
+            layer_list.append(denslayer(currentinchannel, currentoutchannel))
             currentinchannel = currentoutchannel + currentinchannel  # for the next layer, the inchannel is the previous outchannelsize plus previous inchqannel, because they will be concatenated
         return layer_list
 

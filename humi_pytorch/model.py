@@ -607,21 +607,21 @@ class resunetwithmultiresblocks(nn.Module):
         self.multiresblock2 = multiresblock(inchannel=64, outchannelofmultiresblock=128, firstblock=False)
         self.respath2 = respath(inchannel=128, outchannel=128, depth=2)
 
-        self.multiresblock3 = multiresblock(inchannel=128, outchannelofmultiresblock=256, firstblock=False).to('cuda:1')
+        self.multiresblock3 = multiresblock(inchannel=128, outchannelofmultiresblock=256, firstblock=False)
         self.respath3 = respath(inchannel=256, outchannel=256, depth=1)
 
         # bridge
-        self.multiresblock4 = multiresblock(inchannel=256, outchannelofmultiresblock=256, firstblock=False).to('cuda:1')
+        self.multiresblock4 = multiresblock(inchannel=256, outchannelofmultiresblock=256, firstblock=False)
         self.upsample1 = upsampling(256, 256)
 
         # decoder
-        self.multiresblock5 = multiresblock(inchannel=512, outchannelofmultiresblock=128, firstblock=False).to('cuda:1')
+        self.multiresblock5 = multiresblock(inchannel=512, outchannelofmultiresblock=128, firstblock=False)
         self.upsample2 = upsampling(128, 128)
 
-        self.multiresblock6 = multiresblock(inchannel=256, outchannelofmultiresblock=64, firstblock=False).to('cuda:0')
+        self.multiresblock6 = multiresblock(inchannel=256, outchannelofmultiresblock=64, firstblock=False)
         self.upsample3 = upsampling(64, 64)
 
-        self.multiresblock7 = multiresblock(inchannel=128, outchannelofmultiresblock=64, firstblock=False).to('cuda:0')
+        self.multiresblock7 = multiresblock(inchannel=128, outchannelofmultiresblock=64, firstblock=False)
         self.upsample_b6 = upsampling(64, 64)
 
         # last layer
@@ -906,36 +906,36 @@ class hoffentlich_alex(nn.Module):
         """Initialize neural net layers."""
         self.dropout_rate = 0.01
         self.First_Convolution = nn.Sequential(
-            nn.Conv3d(in_channels=1, out_channels=8, kernel_size=(3, 3, 3), padding='same').to('cuda:0'),
+            nn.Conv3d(in_channels=1, out_channels=8, kernel_size=(3, 3, 3), padding='same'),
             ELU(),
 
         )
         self.Average_pooling_block_1 = nn.Sequential(
-            nn.AvgPool3d(kernel_size=(1, 1, 1), stride=(2, 2, 1), padding=0, ceil_mode=True).to('cuda:0'), ELU())
+            nn.AvgPool3d(kernel_size=(1, 1, 1), stride=(2, 2, 1), padding=0, ceil_mode=True), ELU())
         self.DownsamplingSQE_1_part_1 = nn.Sequential(
-            nn.Conv3d(kernel_size=(3, 3, 3), in_channels=8, out_channels=32, padding='same').to('cuda:0'),
+            nn.Conv3d(kernel_size=(3, 3, 3), in_channels=8, out_channels=32, padding='same'),
             ELU(),
-            Dropout3d(p=self.dropout_rate).to('cuda:0'),
-            BatchNorm3d(num_features=32).to('cuda:0'),
-            nn.Conv3d(kernel_size=(3, 3, 3), in_channels=32, out_channels=32, padding='same').to('cuda:0'),
+            Dropout3d(p=self.dropout_rate),
+            BatchNorm3d(num_features=32),
+            nn.Conv3d(kernel_size=(3, 3, 3), in_channels=32, out_channels=32, padding='same'),
             ELU(),
-            Dropout3d(p=self.dropout_rate).to('cuda:0'),
-            BatchNorm3d(num_features=32).to('cuda:0')
+            Dropout3d(p=self.dropout_rate),
+            BatchNorm3d(num_features=32)
         )
         self.DownsamplingSQE_1_part_2 = nn.Sequential(
-            nn.Conv3d(kernel_size=(3, 3, 3), in_channels=40, out_channels=32, padding='same').to('cuda:0'),
-            ELU().to('cuda:0'),
-            Dropout3d(p=self.dropout_rate).to('cuda:0'),
-            BatchNorm3d(num_features=32).to('cuda:0'),
+            nn.Conv3d(kernel_size=(3, 3, 3), in_channels=40, out_channels=32, padding='same'),
+            ELU(),
+            Dropout3d(p=self.dropout_rate),
+            BatchNorm3d(num_features=32),
         )
         self.Intermediate_SQE_1_part_1 = nn.Sequential(
-            nn.Conv3d(kernel_size=(1, 1, 1), in_channels=32, out_channels=64, padding='same').to('cuda:0'),
-            ELU().to('cuda:0'),
-            nn.Conv3d(kernel_size=(3, 3, 3,), in_channels=64, out_channels=64, padding='same').to('cuda:0'),
-            ELU().to('cuda:0'),
-            Dropout3d(p=self.dropout_rate).to('cuda:0'),
-            BatchNorm3d(num_features=64).to('cuda:0'),
-            nn.Conv3d(kernel_size=(3, 3, 3,), in_channels=64, out_channels=64, padding='same').to('cuda:0'),
+            nn.Conv3d(kernel_size=(1, 1, 1), in_channels=32, out_channels=64, padding='same'),
+            ELU(),
+            nn.Conv3d(kernel_size=(3, 3, 3,), in_channels=64, out_channels=64, padding='same'),
+            ELU(),
+            Dropout3d(p=self.dropout_rate),
+            BatchNorm3d(num_features=64),
+            nn.Conv3d(kernel_size=(3, 3, 3,), in_channels=64, out_channels=64, padding='same'),
             ELU(),
             Dropout3d(p=self.dropout_rate),
             BatchNorm3d(num_features=64)
@@ -1135,26 +1135,26 @@ class hoffentlich_alex(nn.Module):
     def forward(self, x):
         data = x
         x1 = self.First_Convolution(x)
-        x1 = x1.to('cuda:0')
+        x1 = x1
         Average_pooling_1 = self.Average_pooling_block_1(x1)
-        Average_pooling_1 = Average_pooling_1.to('cuda:0')
+        Average_pooling_1 = Average_pooling_1
         x2 = self.DownsamplingSQE_1_part_1(Average_pooling_1)
-        x2 = x2.to('cuda:0')
+        x2 = x2
         x3 = cat((Average_pooling_1, x2), 1)
         x3 = self.DownsamplingSQE_1_part_2(x3)  # hierher_concatinieren
-        x3 = x3.to('cuda:0')
+        x3 = x3
         x4 = self.Intermediate_SQE_1_part_1(x3)
-        x4 = x4.to('cuda:0')
+        x4 = x4
         x4 = cat((x3, x4), 1)
         x4 = self.Intermediate_SQE_1_part_2(x4)
-        x4 = x4.to('cuda:0')
+        x4 = x4
         x4 = self.Average_pooling_block_2(x4)
-        x4 = x4.to('cuda:0')
+        x4 = x4
         x5 = self.DownsamplingSQE_2_part_1(x4)
-        x5 = x5.to('cuda:0')
+        x5 = x5
         x5 = cat((x4, x5), 1)
         x6 = self.DownsamplingSQE_2_part_2(x5)  # hierher_concatinieren
-        x6 = x6.to('cuda:0')
+        x6 = x6
         x7 = self.Intermediate_SQE_2_part_1(x6)
         x7 = cat((x6, x7), 1)
         x7 = self.Intermediate_SQE_2_part_2(x7)

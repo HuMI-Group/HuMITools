@@ -1,3 +1,11 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+bibliography: bibliography.bib
+---
+
+
 # IMPORTANT: This README is preliminary and still under development!
 # HuMITools: Segment biological bodies
 
@@ -16,9 +24,9 @@ There are currently two options for installation.
 This project is implemented in python. If you want to adapt the code, develop your own networks or alter our preprocessing pipeline, you will need to set up a python environment. For the purposes of this guide, we will assume that you have conda installed on your pc and use an IDE that you are familiar with.
 
 1. Clone the github repository to a folder
-2. Open the folder 'pyapp' in a terminal, this should contain a file called humitools_environment.yml”
-3. In the terminal, type: “conda env create -f “humitools_environment.yml”
-4. Within your chosen IDE open the project and set the newly created conda environment “HuMITools” as the python interpreter. 
+2. Open the folder 'pyapp' in a terminal, this should contain a file called environment.txt
+3. In the terminal, change the active directory to the main directory then type: “pip install -r requirements.txt”
+4. Within your chosen IDE open the project and set the newly created virtual environment “HuMITools” as the python interpreter. 
 5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
 
 # User guide
@@ -33,9 +41,9 @@ continue your training or prediction another time.
 ## Tool layout
 1.	Grey: General settings you need for trianing and prediction
 2.	Red: Settings for training.
-3. Blue: Predict-button and data folder, containing images, for prediciton.
+3.  Blue: Predict-button and data folder, containing images, for prediciton.
 4.	Yellow: Defined output folder, which includes temp folder, settings (.json) and trained model (.pt).
-5. Green: Data folder for training containing images and labels.
+5.  Green: Data folder for training containing images and labels.
 
 ![A screenshot of the app](./assets/gui_colors.png)
 
@@ -44,6 +52,23 @@ continue your training or prediction another time.
 2.	Labels belonging to images should have the same name with an additional "-label" (i.e. dataset1.nii.gz and dataset1-label.nii.gz) and be stored in the same folder.
 3.	The background of all label.nii.gz should be labeled zero
 4.	The ROI labels should be integers and consistent over all datasets.
+
+## System requirements
+
+HuMITools is designed to allow users with a wide range of systems to predict Labels from their Niftis. 
+For users that follow the labeling scheme of our group, we provide pretrained models that can be used without further training,
+For the prediction of images the following is required:
+1. 16 Gb of RAM
+2. A modern 64bit Operating system (We have tried predicting images on M1 Macs, Debian Derivatives and Windows 11 machines)
+3. 2 GB of free disk space
+
+Training of Neural Networks is a lot more demanding on the system and should ideally be performed using a CUDA enabled Nvidia GPU, 
+training utilizing RoCM (AMD) or Apple Silicon is currently not enabled.
+
+For training on a GPU we recommend a NVIDIA GPU with 24 GB of VRAM (Nvidia Quadro RTX 6000, Nvidia RTX 3090) and 16 GB of RAM.
+If you have no access to a high end GPU and your data necessitates a newly trained model, a modern PC with 24 GB of RAM can be used.
+In our work we have observed that training on a modern GPU speeds up training times by *6 in comparison to training on a CPU.
+
 
 ## General settings
 There are two general settings that you have adjust no matter if you train or predict.
@@ -64,6 +89,8 @@ Depending on your hardware, the epochs and the datasets the training might take 
 Before training, the data will be preprocessed. For that, all images and labels will be converted to 3D numpy, which will be stored in separate folders called "image_numpy" for the images and "label_numpy" for the labels. These folders can be found in the defined output folder, in a separate folder called "TEMP". 
 Additionally, four .nii files will be stored that can be used to check if after proprocessing the labels are still in their correct places. 
 The model (.pt) will be saved in the outputfolder after a few epochs and updated every few epochs.
+
+![Flowchart for Training](./assets/Flowchart_Training.png)
 
 ### Advanced settings
 Depending on your hardware the training might take very long. This can be improved by reducing the batch size or the resolution of the images.
@@ -112,3 +139,9 @@ When changing any of code, apply advanced settings or use a not implemented mode
 
 # Questions
 If you have any questions, need help on predicting your data or want to contribute your data to make the pretrained networks even more powerful feel free to contact us!
+
+# Sources
+
+Most models and Loss functions implemented here were taken (and adapted) from literature sources, 
+
+[DBLP:journals/corr/CicekALBR16]

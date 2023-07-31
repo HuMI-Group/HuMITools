@@ -130,8 +130,4 @@ If you have any questions, need help on predicting your data or want to contribu
 
 # Sources
 
-Most models and Loss functions implemented here were taken (and adapted) from literature sources, 
-
-[DBLP:journals/corr/CicekALBR16]
-
-Test 123
+Most models and Loss functions implemented here were taken (and adapted) from literature sources, see the paper.pdf file a list.

@@ -45,6 +45,18 @@ continue your training or prediction another time.
 3.	The background of all label.nii.gz should be labeled zero
 4.	The ROI labels should be integers and consistent over all datasets.
 
+## System requirements
+
+HuMITools is designed to allow users with a wide range of systems to predict Labels from their Niftis. 
+For the prediction of images the following is required:
+1. 16 Gb of RAM
+2. A modern 64bit Operating system (We have tried predicting images on M1 Macs, Debian Derivatives and Windows 11 machines)
+3. 2 Gb of free Disk Space
+
+Training of Neural Networks is 
+
+
+
 ## General settings
 There are two general settings that you have adjust no matter if you train or predict.
 First, do you want to split your data on the z-axis? This might be the case for symmetrical data like legs.
@@ -111,6 +123,8 @@ There will be no support for problems that arise from using â€œHoffentlich_Alexâ
 # Limitations
 Unfortunately we cannot provide you with trainings datasets, due to data privacy. But we provide you with MR images of our own leg muscles, so that you can see on what the pretrained models are trained on.
 When changing any of code, apply advanced settings or use a not implemented model, this is on your own risk.
+
+
 
 # Questions
 If you have any questions, need help on predicting your data or want to contribute your data to make the pretrained networks even more powerful feel free to contact us!

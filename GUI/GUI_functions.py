@@ -193,16 +193,9 @@ def preprocess_and_train(self):
         self.lbl_train.grid_remove()
 
 
-
 #get settings from json
 def import_settings_from_json(self, json_path):
-    with open(json_path, 'r') as j:
-        contents = json.loads(j.read())
-    for key, value in contents.items():
-        if key == 'output_folder':
-            continue
-        setattr(self.settings, key, value)
-    self.settings.inputShape_create = tuple(self.settings.inputShape_create)
+    save_and_load.load_from_json_to_settings(json_path,self.settings)
     update_user_input_settings_dict(self)
 
 

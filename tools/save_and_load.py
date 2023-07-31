@@ -47,3 +47,13 @@ def save_settings_as_json(settings, file_name):
     dict_settings = settings.__dict__
     with open(os.path.join(settings.output_folder, file_name), 'w') as f:
         json.dump(dict_settings, f, cls=NpEncoder)
+
+
+def load_from_json_to_settings(json_path,settings):
+    with open(json_path, 'r') as j:
+        contents = json.loads(j.read())
+    for key, value in contents.items():
+        if key == 'output_folder':
+            continue
+        setattr(settings, key, value)
+    settings.inputShape_create = tuple(settings.inputShape_create)

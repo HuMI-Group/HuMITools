@@ -2,7 +2,6 @@ import os
 import random
 
 import numpy as np
-import pandas as pd
 import torch
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
@@ -85,11 +84,16 @@ class Pytorch(Frameworks):
 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        df = self.create_df(settings)
-        print('Total Images: ', len(df))
+        img_numpy_folder_path = settings.path_images_train_single_numpy
+        list_numpys = []
+        for dirname, _, filenames in os.walk(img_numpy_folder_path):
+            for filename in filenames:
+                list_numpys.append(filename.split('.')[0])
+
+        print('Total Images: ', len(list_numpys))
 
         testsize = 1 - settings.rel_train_size
-        X_train, X_val = train_test_split(df['id'].values, test_size=testsize, random_state=random.randint(1, 20))
+        X_train, X_val = train_test_split(list_numpys, test_size=testsize, random_state=random.randint(1, 20))
 
         print('Train Size   : ', len(X_train))
         print('Val Size     : ', len(X_val))
@@ -125,16 +129,6 @@ class Pytorch(Frameworks):
                                                     steps_per_epoch=len(train_loader))
 
         fit(settings, device, settings.epochs, model, train_loader, val_loader, criterion, optimizer, sched)
-
-    def create_df(self, settings):
-        name = []
-        img_numpy_folder_path = settings.output_folder + '/temp/image_numpy'
-
-        for dirname, _, filenames in os.walk(img_numpy_folder_path):
-            for filename in filenames:
-                name.append(filename.split('.')[0])
-
-        return pd.DataFrame({'id': name}, index=np.arange(0, len(name)))
 
     def get_model_forTraining(self, settings):
         pass

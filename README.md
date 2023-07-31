@@ -1,11 +1,3 @@
----
-output:
-  md_document:
-    variant: markdown_github
-bibliography: bibliography.bib
----
-
-
 # IMPORTANT: This README is preliminary and still under development!
 # HuMITools: Segment biological bodies
 
@@ -24,8 +16,8 @@ There are currently two options for installation.
 This project is implemented in python. If you want to adapt the code, develop your own networks or alter our preprocessing pipeline, you will need to set up a python environment. For the purposes of this guide, we will assume that you have conda installed on your pc and use an IDE that you are familiar with.
 
 1. Clone the github repository to a folder
-2. Open the folder 'pyapp' in a terminal, this should contain a file called environment.txt
-3. In the terminal, change the active directory to the main directory then type: “pip install -r requirements.txt”
+2. Open the main directory in a terminal, this should contain a file called environment.txt
+3. In the terminal, then type: “pip install -r requirements.txt”
 4. Within your chosen IDE open the project and set the newly created virtual environment “HuMITools” as the python interpreter. 
 5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
 
@@ -38,12 +30,6 @@ after prediction. It is also a folder were all temporary details are stored duri
 The .json is a file created during training and again saved after closing the GUI. It will save your latest settings so that you can easily 
 continue your training or prediction another time.
 
-## Tool layout
-1.	Grey: General settings you need for trianing and prediction
-2.	Red: Settings for training.
-3.  Blue: Predict-button and data folder, containing images, for prediciton.
-4.	Yellow: Defined output folder, which includes temp folder, settings (.json) and trained model (.pt).
-5.  Green: Data folder for training containing images and labels.
 
 ![A screenshot of the app](./assets/gui_screenshot.png)
 
@@ -56,18 +42,20 @@ continue your training or prediction another time.
 ## System requirements
 
 HuMITools is designed to allow users with a wide range of systems to predict Labels from their Niftis. 
+Predicting from pretrained models is fast and light weight, training of models is very time consuming.
+Predicting labels on a reasonably modern laptop takes less than one minute per image.
 For users that follow the labeling scheme of our group, we provide pretrained models that can be used without further training,
 For the prediction of images the following is required:
 1. 16 Gb of RAM
-2. A modern 64bit Operating system (We have tried predicting images on M1 Macs, Debian Derivatives and Windows 11 machines)
+2. A modern 64bit Operating system (We have tried predicting images on M1 Macs, Debian Derivatives and Windows 10/11 machines)
 3. 2 GB of free disk space
 
-Training of Neural Networks is a lot more demanding on the system and should ideally be performed using a CUDA enabled Nvidia GPU, 
-training utilizing RoCM (AMD) or Apple Silicon is currently not enabled.
-
+Training of Neural Networks is a lot more demanding on the system and should ideally be performed using a CUDA enabled Nvidia GPU. 
 For training on a GPU we recommend a NVIDIA GPU with 24 GB of VRAM (Nvidia Quadro RTX 6000, Nvidia RTX 3090) and 16 GB of RAM.
 If you have no access to a high end GPU and your data necessitates a newly trained model, a modern PC with 24 GB of RAM can be used.
 In our work we have observed that training on a modern GPU speeds up training times by *6 in comparison to training on a CPU.
+On our Machine (Quadro RTX 6000, 256 Gb of Ram, 24 CPU Cores) using a large training datasets (300 datasets), training for 400 epochs takes around 2 days.
+Training utilizing RoCM (AMD) or Apple Silicon is currently not enabled.
 
 
 ## General settings

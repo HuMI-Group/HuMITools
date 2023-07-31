@@ -17,7 +17,7 @@ assets_path = Path(__file__).parents[1] / '././assets'
 
 def start_GUI():
     root = tk.Tk()
-    root.title('HuMI Tools')
+    root.title('HuMITools')
     root.iconbitmap(get_assets_path("icon.ico"))
 
     win = GUI(master=root)
@@ -93,14 +93,18 @@ class GUI(tk.Frame):
             root.destroy()
 
     def createGUI(self):
+        color_prep = '#fcdcc2'
+        color_train = '#CAF1DE'
+        color_predict ='#dce1f5'
+
         # Initialize style
-        labelframe_general_settings = tk.Frame(self, highlightbackground="#E1F8DC", highlightthickness=4)
+        labelframe_general_settings = tk.Frame(self, highlightbackground=color_prep, highlightthickness=4)
         labelframe_general_settings.grid(row=0, column=0, columnspan=2, sticky='news', padx=5, pady=5)
 
         header_frame = tk.Frame(labelframe_general_settings)
         header_frame.grid(column=0, row=0, columnspan=2, sticky=NSEW)
         header_frame.columnconfigure(1, weight=1)
-        header = ttk.Label(header_frame, text=u"General Settings", background='#E1F8DC', font=('Tahoma', 20), padding=(5,0))
+        header = ttk.Label(header_frame, text=u"General Settings", background=color_prep, font=('Tahoma', 20), padding=(5,0))
         header.grid(column=0, row=0, columnspan=3, sticky=NSEW)
 
         frame_general_settings_left = ttk.Frame(labelframe_general_settings)
@@ -115,14 +119,14 @@ class GUI(tk.Frame):
         self.create_path_input(frame_general_settings_right, guistr.str_output)
 
         #train
-        labelframe_train = tk.Frame(self, highlightbackground="#CAF1DE", highlightthickness=4)
+        labelframe_train = tk.Frame(self, highlightbackground=color_train, highlightthickness=4)
         labelframe_train.grid(row=1, column=0, columnspan=2, sticky='news', padx=5, pady=5)
 
         header_frame = tk.Frame(labelframe_train)
         header_frame.grid(column=0, row=0, columnspan=3, sticky=NSEW)
         header_frame.columnconfigure(1, weight=1)
 
-        header = ttk.Label(header_frame, text=u"Training", background='#CAF1DE', font=('Tahoma', 20),padding=(5,0))
+        header = ttk.Label(header_frame, text=u"Training", background=color_train, font=('Tahoma', 20),padding=(5,0))
         header.grid(column=0, row=0, columnspan=3, sticky=NSEW)
 
         labelframe_train_left = ttk.Frame(labelframe_train)
@@ -134,7 +138,7 @@ class GUI(tk.Frame):
         self.create_path_input(labelframe_train_right, guistr.str_train)
 
         #predict
-        labelframe_predict = tk.Frame(self, highlightbackground="#ACDDDE", highlightthickness=4)
+        labelframe_predict = tk.Frame(self, highlightbackground=color_predict, highlightthickness=4)
         labelframe_predict.grid(row=2, column=0, columnspan=2, sticky='news', padx=5, pady=5)
         labelframe_predict.columnconfigure(0, weight=1)
 
@@ -142,7 +146,7 @@ class GUI(tk.Frame):
         header_frame.grid(column=0, row=0, columnspan=3, sticky=NSEW)
         header_frame.columnconfigure(1, weight=1)
 
-        header = ttk.Label(header_frame, text=u"Prediction", background='#ACDDDE', font=('Tahoma', 20),padding=(5,0))
+        header = ttk.Label(header_frame, text=u"Prediction", background=color_predict, font=('Tahoma', 20),padding=(5,0))
         header.grid(column=0, row=0, columnspan=3, sticky=NSEW)
 
         labelframe_predict_left = ttk.Frame(labelframe_predict)
@@ -258,7 +262,7 @@ class GUI(tk.Frame):
         group1 = ttk.Frame(cf, padding=10)
 
         for category in self.advances_options:
-            if category == guistr.str_spatialres:
+            if category == guistr.str_spatialres or category == guistr.str_labelsright or category == guistr.str_labelsleft:
                 continue
             index_row += 1
             input = self.advances_options[category]
@@ -305,11 +309,24 @@ class GUI(tk.Frame):
 
     #create predict
     def create_left_side_predict(self, left_panel):
-        # input_frame = ttk.Frame(left_panel)
-        # input_frame.grid(column=0, row=1, columnspan=3, sticky=EW, pady=5)
-        # input_frame.
         ## settings stuff
         paddings = {'padx': 5, 'pady': 5}
+        index_row = 0
+        # advances settings
+        cf = CollapsingFrame(left_panel)
+        cf.grid(row=index_row, column=0, padx=1, pady=1, rowspan=2, columnspan=4, sticky=tk.EW)
+
+        group1 = ttk.Frame(cf, padding=10,)
+
+        for category in self.advances_options:
+            if category == guistr.str_spatialres or category == guistr.str_batchsize or category == guistr.str_learningrate:
+                continue
+            index_row += 1
+            input = self.advances_options[category]
+            self.create_entrybox(group1, category, index_row, paddings, input)
+
+        cf.add(group1, title='Advanced settings', style='light')
+        index_row += 1
 
         # predict button
         self.btn_predict = ttk.Button(
@@ -320,8 +337,9 @@ class GUI(tk.Frame):
             bootstyle='info'
         )
         self.btn_predict.configure(state="disabled")
-        self.btn_predict.grid(row=1, column=3, columnspan=3, sticky=E, **paddings)
+        self.btn_predict.grid(row=index_row, column=3, columnspan=3, sticky=E, **paddings)
         self.create_tooltip(self.btn_predict, self.tooltiptext['str_predictbutton'])
+        index_row += 1
 
         ## progress message
         self.lbl_predict = ttk.Label(
@@ -329,8 +347,10 @@ class GUI(tk.Frame):
             text='predicting...',
             font='Helvetica 10 bold'
         )
-        self.lbl_predict.grid(row=2, column=0, columnspan=2, sticky=W)
+        self.lbl_predict.grid(row=index_row, column=0, columnspan=2, sticky=W)
         self.lbl_predict.grid_remove()
+        index_row += 1
+
         ## progress bar
         self.progressbar_predict = ttk.Progressbar(
             master=left_panel,
@@ -338,27 +358,25 @@ class GUI(tk.Frame):
             # variable='prog-value',
             bootstyle='info'
         )
-        self.progressbar_predict.grid(row=3, column=0, columnspan=6, sticky=EW, pady=(10, 5))
+        self.progressbar_predict.grid(row=index_row, column=0, columnspan=6, sticky=EW, pady=(10, 5))
+        index_row += 1
 
         # logo
         lbl = ttk.Label(left_panel, image='logo')  # , style='bg.TLabel')
-        lbl.grid(row=4, column=1)
+        lbl.grid(row=index_row, column=1, sticky=S)
 
     def create_dropdown(self, master, category, index_row, paddings):
-        # Creating a unique variable / name for later reference
+
         self.user_input_settings_dict[category] = tk.StringVar()
         self.user_input_settings_dict[category].set(self.dropdown_stuff[category][0])
         label = ttk.Label(master, text=category, font=('Tahoma', 10))
         label.grid(column=0, row=index_row, sticky=tk.W, **paddings)
-        # Creating OptionMenu with unique variable
+
         self.widgets_dict[category] = ttk.OptionMenu(master, self.user_input_settings_dict[category],
                                                      self.dropdown_stuff[category][0],
                                                      *self.dropdown_stuff[category], bootstyle='dark-outline')
         self.widgets_dict[category].grid(row=index_row, column=1, padx=1, pady=1, sticky=tk.EW)
         self.widgets_dict[category].configure(width=20)
-
-          # add this to your code it will change style for dropdownlist
-
         self.create_tooltip(self.widgets_dict[category], self.tooltiptext[category])
 
         index_row += 1
@@ -369,7 +387,6 @@ class GUI(tk.Frame):
         self.user_input_settings_dict[category].set(input)
         label = ttk.Label(master, text=category, font=('Tahoma', 10))
         label.grid(column=0, row=index_row, sticky=tk.W, **paddings)
-        # Creating OptionMenu with unique variable
         self.widgets_dict[category] = ttk.Entry(master, textvariable=self.user_input_settings_dict[category],
                                                 bootstyle='dark')
         self.widgets_dict[category].grid(row=index_row, column=1, padx=1, pady=1, sticky=tk.EW)

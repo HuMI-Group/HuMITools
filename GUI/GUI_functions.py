@@ -27,6 +27,9 @@ def update_user_input_settings_dict(self):
     self.user_input_settings_dict.get(guistr.str_spatialres).set(self.settings.inputShape_create)
     self.user_input_settings_dict.get(guistr.str_batchsize).set(self.settings.batch_size)
     self.user_input_settings_dict.get(guistr.str_learningrate).set(self.settings.learning_rate)
+    self.user_input_settings_dict.get(guistr.str_labelsright).set(self.settings.labels_right)
+    self.user_input_settings_dict.get(guistr.str_labelsleft).set(self.settings.labels_left)
+
     get_filenames_in_folder_into_treeview(self, guistr.str_predict)
     get_filenames_in_folder_into_treeview(self, guistr.str_output)
     get_filenames_in_folder_into_treeview(self, guistr.str_train)
@@ -47,14 +50,17 @@ def update_settings(self):
     self.settings.loadWeigth = self.user_input_settings_dict.get(guistr.str_loadweights).get()
 
     self.settings.epochs = int(self.user_input_settings_dict.get(guistr.str_epochs).get())
+    self.settings.batch_size = int(self.user_input_settings_dict.get(guistr.str_batchsize).get())
+    self.settings.learning_rate = float(self.user_input_settings_dict.get(guistr.str_learningrate).get())
 
-    if type( self.user_input_settings_dict.get(guistr.str_spatialres).get()) is tuple:
+    if type(self.user_input_settings_dict.get(guistr.str_spatialres).get()) is tuple:
         self.settings.inputShape_create = self.user_input_settings_dict.get(guistr.str_spatialres).get()
     else:
         self.settings.inputShape_create = tuple(map(int, self.user_input_settings_dict.get(guistr.str_spatialres).get().split(' ')))
 
-    self.settings.batch_size = int(self.user_input_settings_dict.get(guistr.str_batchsize).get())
-    self.settings.learning_rate = float(self.user_input_settings_dict.get(guistr.str_learningrate).get())
+    if self.user_input_settings_dict.get(guistr.str_labelsright).get() != '':
+        self.settings.labels_right = list(self.user_input_settings_dict.get(guistr.str_labelsright).get())
+        self.settings.labels_left = list(self.user_input_settings_dict.get(guistr.str_labelsleft).get())
 
 
 #get directory
@@ -140,21 +146,20 @@ def predict_selected(self):
     self.lbl_predict.grid()
     self.update()
     update_settings(self)
-    # self.progressbar.start()
-    # try:
-    update_settings(self)
-    self.settings.folder_to_predict_imgs = predictfolder
-    getFramework().predict(self.settings)
-    # self.update_idletasks()
-    get_filenames_in_folder_into_treeview(self, guistr.str_predict)
-    showinfo("Done", "I predicted!")
-    self.lbl_predict.grid_remove()
-    get_filenames_in_folder_into_treeview(self, guistr.str_output)
-    self.update()
 
-    # except (BaseException):
-    #     showerror(title='ERROR - Check console', message=traceback.format_exc().splitlines()[-1])
-    #     self.lbl_predict.grid_remove()
+    try:
+        update_settings(self)
+        self.settings.folder_to_predict_imgs = predictfolder
+        getFramework().predict(self.settings)
+        get_filenames_in_folder_into_treeview(self, guistr.str_predict)
+        showinfo("Done", "I predicted!")
+        self.lbl_predict.grid_remove()
+        get_filenames_in_folder_into_treeview(self, guistr.str_output)
+        self.update()
+    except (BaseException):
+        print(traceback.format_exc())
+        showerror(title='ERROR - Check console', message=traceback.format_exc().splitlines()[-1])
+        self.lbl_predict.grid_remove()
 
 #train
 def preprocess_and_train(self):
@@ -183,6 +188,7 @@ def preprocess_and_train(self):
         get_filenames_in_folder_into_treeview(self, guistr.str_output)
         self.update_idletasks()
     except (BaseException):
+        print(traceback.format_exc())
         showerror(title='ERROR - Check console', message=traceback.format_exc().splitlines()[-1])
         self.lbl_train.grid_remove()
 

@@ -16,6 +16,8 @@ str_totallabels = 'Total Labels'
 str_spatialres = 'Spatial Resolution'
 str_batchsize = 'Batch Size'
 str_learningrate = 'Learning Rate'
+str_labelsleft ='Labelnumbers left'
+str_labelsright ='Labelnumbers right'
 
 
 dropdown_stuff = {
@@ -45,6 +47,8 @@ tooltiptext = {
         str_learningrate : 'Learning Rate, if you see bad results with the training, altering this number can improve results',
         'str_predictbutton': "Predict",
         'str_trainbutton': "Train",
+        str_labelsleft:"",
+        str_labelsright:""
 }
 
 checkbox = {
@@ -61,5 +65,7 @@ advances_options = {
     str_spatialres: settings.inputShape_create,
     str_batchsize: settings.batch_size,
     str_learningrate: settings.learning_rate,
+    str_labelsleft: settings.labels_left,
+    str_labelsright: settings.labels_right,
 }
 

@@ -6,8 +6,6 @@ from datetime import datetime
 import nibabel
 import numpy as np
 
-import settings
-
 
 def save_as_nii_for_control(array, path, filename, affine, q_form=None):
     if path == '':

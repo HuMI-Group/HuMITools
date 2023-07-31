@@ -1,12 +1,8 @@
 import math
 import time
-
 import numpy as np
 import torch
 import tqdm
-from torchviz import make_dot
-import torchvision
-from torchview import draw_graph
 from humi_pytorch.Losses import Losses
 
 

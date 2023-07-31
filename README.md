@@ -45,7 +45,7 @@ continue your training or prediction another time.
 4.	Yellow: Defined output folder, which includes temp folder, settings (.json) and trained model (.pt).
 5.  Green: Data folder for training containing images and labels.
 
-![A screenshot of the app](./assets/gui_colors.png)
+![A screenshot of the app](./assets/gui_screenshot.png)
 
 ## Data requirements
 1.	HuMITools accepts only (3D) nifty files (.nii or .nii.gz)

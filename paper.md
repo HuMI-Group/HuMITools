@@ -78,9 +78,12 @@ In the label file, the background should be labeled as “0”.
 #Preprocessing Options
 
 Irrespective of the specific use case, all data will be automatically preprocessed for further use.
-The preprocessing pipeline follows a specific order. First all images are split on the third image dimension
+The preprocessing pipeline follows a specific order and is depicted in \autoref{fig:example}.. First all images are split on the third image dimension
 (which is the z axis in our data) if the axis is longer than 25 slices. The resulting split images are
 range normalized from 0 to 100. For anatomical symmetric bodies like arms or legs, the data should be split and mirrored,
 for which the “split”-checkbox needs to be activated. After this, the label numbers will be sorted into categories,
 starting with the background. To reduce empty space, background of the images is cut and then all images scaled
 up to the image resolution set in the GUI.
+
+
+![Flowchart for the preprocessing timeline.\label{fig:flowchart}](assets/Flowchart_Training.png)

@@ -16,7 +16,7 @@ There are currently two options for installation.
 This project is implemented in python. If you want to adapt the code, develop your own networks or alter our preprocessing pipeline, you will need to set up a python environment. For the purposes of this guide, we will assume that you have conda installed on your pc and use an IDE that you are familiar with.
 
 1. Clone the github repository to a folder
-2. Open the main directory in a terminal, this should contain a file called environment.txt
+2. Open the main directory in a terminal, this should contain a file called requirements.txt
 3. In the terminal, then type: “pip install -r requirements.txt”
 4. Within your chosen IDE open the project and set the newly created virtual environment “HuMITools” as the python interpreter. 
 5. To test whether everything worked, navigate to the main_GUI.py file and run it. A GUI as depicted in the images below should open.
